@@ -3,6 +3,7 @@ import logging, logging.handlers
 import uuid
 import xml.sax
 import dateutil.parser
+import pytz
 import time
 import subprocess
 import hashlib
@@ -49,6 +50,8 @@ borg_env["BORG_KEYS_DIR"] = os.path.join(app.config["DATA_FOLDER"], ".config/bor
 borg_env["BORG_SECURITY_DIR"] = os.path.join(app.config["DATA_FOLDER"], ".config/borg/security")
 borg_repo=os.path.join(app.config["DATA_FOLDER"],"dedup")
 
+rutz=pytz.timezone("Europe/Moscow")
+
 with app.app_context():
         c = 0
         while True:
@@ -64,15 +67,13 @@ with app.app_context():
 class RegHandler(xml.sax.ContentHandler ):
         def __init__(self):
                 self.updateTime = ""
-                self.updateTimeUrgently = ""
                 self.updateTime_ut = 0.0
-                self.updateTimeUrgently_ut = 0.0
 
         # Call when an element starts
         def startElement(self, tag, attributes):
                 if tag == "resources":
                         self.updateTime = attributes["date"]
-                        self.updateTime_ut = dateutil.parser.parse(self.updateTime).timestamp()
+                        self.updateTime_ut = rutz.localize(dateutil.parser.parse(self.updateTime).timestamp())
 
 
 def allowed_file(filename):

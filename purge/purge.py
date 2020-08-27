@@ -88,8 +88,8 @@ if __name__ == "__main__":
         mysql_config_path = os.environ.get("MYSQL_CONFIG","/mysql_user.env")
         for k,v in parse_config(mysql_config_path):
                 config[k] = v
-        db=MySQLdb.connect(host=config["MYSQL_HOST"], user=config["MYSQL_USER"], 
-                        passwd=config["MYSQL_PASSWORD"], db=config["MYSQL_DATABASE"], 
+        db=MySQLdb.connect(host=config["MYSQL_HOST"], user=config["MYSQL_USER"],
+                        passwd=config["MYSQL_PASSWORD"], db=config["MYSQL_DATABASE"],
                         cursorclass=MySQLdb.cursors.DictCursor, use_unicode=True, charset="utf8mb4", autocommit=True)
         cur=db.cursor()
         # borg init

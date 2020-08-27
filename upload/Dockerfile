@@ -6,14 +6,7 @@ WORKDIR /tmp
 
 RUN apk add --no-cache bash openssl uwsgi-python3 mariadb-client py3-msgpack py3-pip \
         lz4-libs libattr libacl ca-certificates libxml2-utils\
-        && pip3 install --upgrade pip \
-        && apk add --no-cache --virtual .build-deps \
-                mariadb-dev \
-                python3-dev \
-                gcc \
-                musl-dev \
-        && pip3 install mysqlclient \
-        && apk del .build-deps
+        && pip3 install --upgrade pip
 
 RUN apk add --no-cache --virtual .build-deps \
                 gcc g++ libc-dev make pcre-dev zlib-dev \
@@ -27,7 +20,7 @@ RUN apk add --no-cache --virtual .build-deps \
         && apk del .build-deps \
         && rm -rf /tmp/*
 
-RUN pip3 install python-dateutil \
+RUN pip3 install dateutils \
         && pip3 install flask \
         && pip3 install flask-mysqldb \
         && addgroup -S -g 82 www-data \

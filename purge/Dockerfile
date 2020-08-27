@@ -18,7 +18,7 @@ RUN apk add --no-cache bash openssl python3 py3-msgpack py3-pip mariadb-client \
         && apk del .build-deps \
         && rm -rf /tmp/*
 
-RUN pip3 install python-dateutil \
+RUN pip3 install dateutils \
         && addgroup -S -g 82 www-data \
         && adduser -D -S -h /var/www -G www-data -u 82 -s /sbin/nologin www-data \
         && addgroup dumpby -g 2002 \
