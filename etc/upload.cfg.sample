@@ -1,0 +1,9 @@
+UPLOAD_FOLDER = '/var/opt/dumpby/tmp'
+DATA_FOLDER = '/var/opt/dumpby/data'
+LOGGING_FOLDER = '/var/log/dumpby'
+MYSQL_HOST = 'mysql'
+MYSQL_CHARSET = 'utf8mb4'
+MYSQL_CURSORCLASS = 'DictCursor'
+MYSQL_USE_UNICODE = 'True'
+DEBUG=1
+

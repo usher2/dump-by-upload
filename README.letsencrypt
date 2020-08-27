@@ -1,0 +1,4 @@
+docker run --rm -ti -v letsencrypt:/etc/letsencrypt -v www:/var/www -v /var/log:/var/log  certbot/certbot renew
+
+docker run --rm -ti -v letsencrypt:/etc/letsencrypt -v www:/var/www -v /var/log:/var/log  certbot/certbot certonly --webroot -w /var/www -d ****
+

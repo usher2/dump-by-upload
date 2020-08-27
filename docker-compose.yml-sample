@@ -1,0 +1,98 @@
+version: '3.3'
+
+services:
+        dumpbydb:
+                image: mariadb:10.2
+                networks:
+                        - app
+                env_file:
+                        - ./etc/mysql_root.env
+                        - ./etc/mysql_user.env
+                volumes:
+                        - dumpby-db:/var/lib/mysql
+                        - ./sql:/docker-entrypoint-initdb.d
+                command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+                logging:
+                        driver: syslog
+                        options:
+                                tag: dumpbydb
+                restart: unless-stopped
+        dumpbyapp:
+                build:
+                        context: ./upload
+                env_file:
+                        - ./etc/mysql_user.env
+                volumes:
+                        - dumpby-data:/var/opt/dumpby/data
+                        - dumpby-logs:/var/log/dumpby
+                        - ./etc/upload.cfg:/upload.cfg:ro
+                links:
+                        - dumpbydb:mysql
+                networks:
+                        - app
+                depends_on:
+                        - dumpbydb
+                logging:
+                        driver: syslog
+                        options:
+                                tag: dumpbyapp
+                restart: unless-stopped
+        dumpbypurge:
+                build:
+                        context: ./purge
+                volumes:
+                        - dumpby-data:/var/opt/dumpby/data
+                        - dumpby-logs:/var/log/dumpby
+                        - ./etc/mysql_user.env:/mysql_user.env:ro
+                        - ./etc/upload.cfg:/upload.cfg:ro
+                links:
+                        - dumpbydb:mysql
+                networks:
+                        - app
+                depends_on:
+                        - dumpbydb
+                logging:
+                        driver: syslog
+                        options:
+                                tag: dumpbypurge
+                restart: unless-stopped
+        nginx:
+                build:
+                        context: ./nginx
+                volumes:
+                        - letsencrypt:/etc/letsencrypt:ro
+                        - www:/var/www:ro
+                        - dumpby-data:/var/opt/dumpby/data
+                ports:
+                        - "80:80"
+                        - "443:443"
+                links:
+                        - dumpbyapp
+                networks:
+                        - app
+                depends_on:
+                        - dumpbyapp
+                        - dumpbydb
+                logging:
+                        driver: syslog
+                        options:
+                                tag: nginx
+                restart: unless-stopped
+volumes:
+        dumpby-data:
+                external: true
+        dumpby-logs:
+                external: true
+        dumpby-db:
+                external: true
+        www:
+                external: true
+        letsencrypt:
+                external: true
+networks:
+        apps:
+            driver: bridge
+            ipam:
+                driver: default
+                config:
+                    - subnet: 172.22.54.0/24

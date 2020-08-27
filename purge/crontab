@@ -1,0 +1,2 @@
+*/5     *       *       *       *       flock -x -n /srv/dumpby/purge.lock python3 /srv/dumpby/purge.py
+

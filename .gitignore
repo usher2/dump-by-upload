@@ -1,0 +1,8 @@
+*\~
+*.pyc
+*.swp
+*.log
+/__pycache__/
+/etc/*
+!/etc/*.sample
+docker-compose.yml
