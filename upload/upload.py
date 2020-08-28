@@ -300,12 +300,13 @@ def upload_handler():
                 # Check zip archive
                 try:
                         # SOME CHECK???!!!
-                        args = ['xmllint','--schema','/srv/dump.xsd',filename]
-                        if subprocess.call(args) == 0:
+                        args = ['xmllint','--noout','--schema','/srv/dumpby/dump.xsd',filename]
+                        rcode = subprocess.call(args)
+                        if rcode == 0:
                                 app.logger.info("%s (%s): check passed", addr, user)
                         else:
-                                app.logger.error("%s (%s): xmllint execute error %s", addr, user, sys.exc_info()[1])
-                                abort(500)
+                                app.logger.error("%s (%s): xmllint execute error %d", addr, user, rcode)
+                                raise
                         # get hash sha256
                         with open(filename, 'rb') as fh:
                                 s = b''
@@ -328,15 +329,11 @@ def upload_handler():
                                                         p = block
                 except:
                         app.logger.error("%s (%s): Check error %s", addr, user, sys.exc_info()[1])
+                        if os.path.exists(filename):
+                                os.unlink(filename)
+                        if os.path.exists(tempdir):
+                                os.rmdir(tempdir)
                         abort(500)
-                finally:
-                        # clear for temporary files
-                        if os.path.exists(tempfile):
-                                os.unlink(tempfile)
-                        if os.path.exists(myxml):
-                                os.unlink(myxml)
-                        if os.path.exists(mysig):
-                                os.unlink(mysig)
                 uniqid = hda.hexdigest()
                 realid = hd.hexdigest()
                 uniqname = uniqid + '.xml'
