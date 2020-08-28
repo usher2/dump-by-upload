@@ -6,3 +6,6 @@
 /etc/*
 !/etc/*.sample
 docker-compose.yml
+/fetch-utils/*.xml
+/fetch-utils/*.json
+/fetch-utils/*.cfg

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+. ./fetch.cfg
+
+curl -k -X GET -H "Authorization: Bearer ${token}" ${apiurl}/hot > dump.xml
+xmllint  --format dump.xml >dump-f.xml
+
+
