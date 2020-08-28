@@ -3,7 +3,7 @@ FROM alpine:3.12
 LABEL maintainer="Phil Kulin <schors@gmail.com>"
 
 WORKDIR /tmp
-RUN apk add --no-cache bash openssl python3 py3-msgpack py3-pip mariadb-client \
+RUN apk add --no-cache bash openssl python3 py3-msgpack py3-pip mariadb-client mariadb-connector-c \
         lz4-libs libattr libacl libressl ca-certificates \
         && pip3 install --upgrade pip \
         && apk add --no-cache --virtual .build-deps \

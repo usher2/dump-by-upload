@@ -55,7 +55,7 @@ def compress(uniqid, ut):
                         print("Archive %s already exists..." % (uniqid,))
                         return True
         else:
-                print("Oops file %s not exists...." (filename,))
+                print("Oops file %s not exists...." % (filename,))
                 return False
 
 def borg_list(env, repo):

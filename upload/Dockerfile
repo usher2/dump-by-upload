@@ -4,7 +4,7 @@ LABEL maintainer="Phil Kulin <schors@gmail.com>"
 
 WORKDIR /tmp
 
-RUN apk add --no-cache bash openssl uwsgi-python3 mariadb-client py3-msgpack py3-pip \
+RUN apk add --no-cache bash openssl uwsgi-python3 mariadb-client mariadb-connector-c py3-msgpack py3-pip \
         lz4-libs libattr libacl ca-certificates libxml2-utils\
         && pip3 install --upgrade pip
 

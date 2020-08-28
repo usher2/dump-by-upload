@@ -4,7 +4,7 @@ services:
         dumpbydb:
                 image: mariadb:10.2
                 networks:
-                        - app
+                        - apps
                 env_file:
                         - ./etc/mysql_root.env
                         - ./etc/mysql_user.env
@@ -29,7 +29,7 @@ services:
                 links:
                         - dumpbydb:mysql
                 networks:
-                        - app
+                        - apps
                 depends_on:
                         - dumpbydb
                 logging:
@@ -48,7 +48,7 @@ services:
                 links:
                         - dumpbydb:mysql
                 networks:
-                        - app
+                        - apps
                 depends_on:
                         - dumpbydb
                 logging:
@@ -69,7 +69,7 @@ services:
                 links:
                         - dumpbyapp
                 networks:
-                        - app
+                        - apps
                 depends_on:
                         - dumpbyapp
                         - dumpbydb
