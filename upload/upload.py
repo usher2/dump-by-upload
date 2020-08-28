@@ -300,6 +300,12 @@ def upload_handler():
                 # Check zip archive
                 try:
                         # SOME CHECK???!!!
+                        args = ['xmllint','--schema','/srv/dump.xsd',filename]
+                        if subprocess.call(args) == 0:
+                                app.logger.info("%s (%s): check passed", addr, user)
+                        else:
+                                app.logger.error("%s (%s): xmllint execute error %s", addr, user, sys.exc_info()[1])
+                                abort(500)
                         # get hash sha256
                         with open(filename, 'rb') as fh:
                                 s = b''

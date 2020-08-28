@@ -39,7 +39,7 @@ RUN pip3 install dateutils \
         && chmod 750 /var/log/dumpby \
         && chown dumpby:dumpby /var/log/dumpby
 
-COPY upload.py /srv/dumpby/
+COPY upload.py dump.xsd /srv/dumpby/
 
 EXPOSE 5000
 ENV UPLOAD_SETTINGS=/upload.cfg
