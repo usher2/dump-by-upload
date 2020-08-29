@@ -137,9 +137,13 @@ def decompress(uniqid):
                 os.makedirs(datadir)
         filename = os.path.join(datadir, uniqname)
         try:
-                args = ["borg", "extract", "--umask=0022", borg_repo + "::" + uniqid]
+                args = ["borg", "extract", "--umask=0022", borg_repo + "::" + uniqid, uniqname]
                 print("B: %s" % ' '.join(args))
                 subprocess.run(args, env=borg_env, check=True, cwd=datadir)
+                if os.path.exists(filename):
+                        return True
+                else:
+                        return False
         except:
                 print("Borg error %s" % sys.exc_info()[1])
                 if os.path.exists(filename):
