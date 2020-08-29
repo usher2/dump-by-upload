@@ -4,7 +4,7 @@ set -e
 
 . ./fetch.cfg
 
-curl -k -X GET -H "Authorization: Bearer ${token}" ${apiurl}/hot > dump.xml
-xmllint  --format dump.xml >dump-f.xml
-
+if curl -X GET -H "Authorization: Bearer ${token}" ${apiurl}/hot -o dump.xml; then
+        xmllint  --format dump.xml >dump-f.xml
+fi
 

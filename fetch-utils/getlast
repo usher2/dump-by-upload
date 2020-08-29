@@ -10,17 +10,19 @@ fi
 . ./fetch.cfg
 
 ts=`date -d "$1" \+%s`
-curl -k -X GET -H "Authorization: Bearer ${token}" ${apiurl}/last?ts=${ts} > getlast.json
+if curl -k -X GET -H "Authorization: Bearer ${token}" ${apiurl}/last?ts=${ts} -o getlast.json; then
 
-id=`jq -r '.[0].id' < getlast.json`
-ut=`jq -r '.[0].ut' < getlast.json`
+        id=`jq -r '.[0].id' < getlast.json`
+        ut=`jq -r '.[0].ut' < getlast.json`
 
-dn="dump-"`date -d @${ut} +"%Y-%m-%dT%H:%M:%S%z"`
+        dn="dump-"`date -d @${ut} +"%Y-%m-%dT%H:%M:%S%z"`
 
-echo "id=$id; dn=$dn"
+        echo "id=$id; dn=$dn"
 
-if [ "x" != "x${id}" ]; then
-        curl -k -X GET -H "Authorization: Bearer ${token}" ${apiurl}/get/${id} > ${dn}.xml
-        xmllint  --format ${dn}.xml >${dn}-f.xml
+        if [ "x" != "x${id}" ]; then
+                if curl -k -X GET -H "Authorization: Bearer ${token}" ${apiurl}/get/${id} -o ${dn}.xml; then
+                        xmllint  --format ${dn}.xml >${dn}-f.xml
+                fi
+        fi
+
 fi
-
