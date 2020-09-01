@@ -36,8 +36,8 @@ handler.setFormatter(formatter)
 app.logger.addHandler(handler)
 app.logger.setLevel(logging.INFO)
 
-_rb = re.compile(rb".*<resources.*?>")
-_re = re.compile(rb"</resources.*?>.*")
+_rb = re.compile(rb".*<resources.*?>",flags=re.M|re.S)
+_re = re.compile(rb"</resources.*?>.*",flags=re.M|re.S)
 
 # borg init
 borg_env = os.environ.copy()
@@ -73,7 +73,7 @@ class RegHandler(xml.sax.ContentHandler ):
         def startElement(self, tag, attributes):
                 if tag == "resources":
                         self.updateTime = attributes["date"]
-                        self.updateTime_ut = rutz.localize(dateutil.parser.parse(self.updateTime).timestamp())
+                        self.updateTime_ut = rutz.localize(dateutil.parser.parse(self.updateTime)).timestamp()
 
 
 def allowed_file(filename):
@@ -320,7 +320,7 @@ def upload_handler():
                                         hda.update(block)
                                         if fl == 0:
                                                 s += block
-                                                if _rb.match(s):
+                                                if _rb.search(s):
                                                         hd.update(_rb.sub(b"", s))
                                                         fl = 1
                                         elif fl == 1:
