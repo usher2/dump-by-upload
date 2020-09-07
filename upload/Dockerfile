@@ -41,6 +41,7 @@ RUN pip3 install dateutils \
 
 COPY upload.py dump.xsd /srv/dumpby/
 
+VOLUME /var/opt/dumpby/tmp
 EXPOSE 5000
 ENV UPLOAD_SETTINGS=/upload.cfg
 

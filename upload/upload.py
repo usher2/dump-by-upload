@@ -64,7 +64,7 @@ with app.app_context():
                                 raise
                         time.sleep(1)
 
-class RegHandler(xml.sax.ContentHandler ):
+class RegHandler(xml.sax.ContentHandler):
         def __init__(self):
                 self.updateTime = ""
                 self.updateTime_ut = 0.0
@@ -311,6 +311,11 @@ def upload_handler():
                         else:
                                 app.logger.error("%s (%s): xmllint execute error %d", addr, user, rcode)
                                 raise
+                        # parse xml (get updatetime)
+                        parser = xml.sax.make_parser()
+                        parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+                        parser.setContentHandler(H)
+                        parser.parse(filename)
                         # get hash sha256
                         with open(filename, 'rb') as fh:
                                 s = b''
