@@ -8,7 +8,7 @@
               <xs:element type="xs:string" name="ip"/>
               <xs:element type="xs:string" name="dns"/>
               <xs:element type="xs:string" name="url"/>
-              <xs:element type="xs:date" name="dateoff"/>
+              <xs:element type="xs:string" name="dateoff"/>
               <xs:element type="xs:string" name="info"/>
             </xs:sequence>
             <xs:attribute type="xs:short" name="id" use="optional"/>
