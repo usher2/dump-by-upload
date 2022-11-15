@@ -338,10 +338,10 @@ def upload_handler():
                                                         p = block
                 except:
                         app.logger.error("%s (%s): Check error %s", addr, user, sys.exc_info()[1])
-                        if os.path.exists(filename):
-                                os.unlink(filename)
-                        if os.path.exists(tempdir):
-                                os.rmdir(tempdir)
+                        #if os.path.exists(filename):
+                        #        os.unlink(filename)
+                        #if os.path.exists(tempdir):
+                        #        os.rmdir(tempdir)
                         abort(500)
                 uniqid = hda.hexdigest()
                 realid = hd.hexdigest()

@@ -1,2 +1,0 @@
-12 12 * * * root flock -x -n /tmp/ledocker.lock docker run --rm -v letsencrypt:/etc/letsencrypt -v www:/var/www -v /var/log:/var/log certbot/certbot renew -n && su -l -c 'docker-compose -f /opt/services/docker-compose.yml kill -s SIGHUP nginx' >/dev/null 2>&1
-
