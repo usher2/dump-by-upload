@@ -75,7 +75,6 @@ class RegHandler(xml.sax.ContentHandler):
                         self.updateTime = attributes["date"]
                         self.updateTime_ut = rutz.localize(dateutil.parser.parse(self.updateTime)).timestamp()
 
-
 def allowed_file(filename):
         return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -304,13 +303,13 @@ def upload_handler():
                 # Check zip archive
                 try:
                         # SOME CHECK???!!!
-                        args = ['xmllint','--noout','--schema','/srv/dumpby/dump.xsd',filename]
-                        rcode = subprocess.call(args)
-                        if rcode == 0:
-                                app.logger.info("%s (%s): check passed", addr, user)
-                        else:
-                                app.logger.error("%s (%s): xmllint execute error %d", addr, user, rcode)
-                                raise
+                        #args = ['xmllint','--noout','--schema','/srv/dumpby/dump.xsd',filename]
+                        #rcode = subprocess.call(args)
+                        #if rcode == 0:
+                        #        app.logger.info("%s (%s): check passed", addr, user)
+                        #else:
+                        #        app.logger.error("%s (%s): xmllint execute error %d", addr, user, rcode)
+                        #        raise
                         # parse xml (get updatetime)
                         parser = xml.sax.make_parser()
                         parser.setFeature(xml.sax.handler.feature_namespaces, 0)
